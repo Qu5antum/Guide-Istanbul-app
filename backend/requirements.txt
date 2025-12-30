@@ -2,5 +2,8 @@ sqlalchemy
 fastapi
 environs
 passlib
-jwt
+pyjwt
 uvicorn
+asyncpg
+python-multipart
+argon2_cffi

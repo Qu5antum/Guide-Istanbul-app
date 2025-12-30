@@ -5,7 +5,7 @@ from backend.src.database.db import AsyncSession
 from backend.src.security.security_context import check_hashes
 from backend.src.models.models import User
 
-#import User from models
+# authenticate user 
 
 async def auth_user(credents: OAuth2PasswordRequestForm, session: AsyncSession):
     query = select(User).where(User.username == credents.username)
