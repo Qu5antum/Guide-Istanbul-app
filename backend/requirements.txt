@@ -1,0 +1,6 @@
+sqlalchemy
+fastapi
+environs
+passlib
+jwt
+uvicorn
