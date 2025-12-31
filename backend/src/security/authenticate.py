@@ -25,4 +25,5 @@ async def auth_user(credents: OAuth2PasswordRequestForm, session: AsyncSession):
         )
     
     token = await create_jwt_token({"sub": str(user.id)})
-    return {"access_token": token}
+    return {"access_token": token,
+            "token_type": "bearer"}

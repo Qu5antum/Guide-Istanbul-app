@@ -4,6 +4,8 @@ from backend.src.database.db import AsyncSession, get_session
 from backend.src.schemas.schemas import UserCreate
 from backend.src.security.security import OAuth2PasswordRequestForm
 from backend.src.security.authenticate import auth_user
+from backend.src.dependencies.check_role import require_roles
+from backend.src.models.models import User
 
 router = APIRouter(
     prefix="/user",
@@ -23,4 +25,5 @@ async def login_user(
     credents: OAuth2PasswordRequestForm = Depends(),
     session: AsyncSession = Depends(get_session)
 ):
-    return await auth_user(credents=credents, session=session)
+    return await auth_user(session=session, credents=credents)
+
