@@ -2,6 +2,7 @@ from fastapi import Depends, HTTPException, status
 from backend.src.dependencies.current_user import get_current_user
 from backend.src.models.models import User
 
+# Провкрка пользователя на админа или простого пользователя
 def require_roles(allowed_roles: list[str]):
     async def checker(
         current_user: User = Depends(get_current_user)
