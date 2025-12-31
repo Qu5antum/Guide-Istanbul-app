@@ -1,6 +1,6 @@
 from backend.src.database.db import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import Table, Column, ForeignKey, Integer
+from sqlalchemy import Table, Column, ForeignKey, Integer, String, Float
 
 class User(Base):
     __tablename__ = "users"
@@ -33,4 +33,38 @@ user_roles = Table(
     Column("user_id", ForeignKey("users.id"), primary_key=True),
     Column("role_id", ForeignKey("roles.id"), primary_key=True),
 )
+
+class Location(Base):
+    __tablename__ = "locations"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    location_title: Mapped[str] = mapped_column(String, index=True, nullable=False)
+    link: Mapped[str] = mapped_column(String, nullable=False)
+    price: Mapped[float] = mapped_column(Float, nullable=False)
+    latitude: Mapped[float] = mapped_column(Float, nullable=False)
+    longitude: Mapped[float] = mapped_column(Float, nullable=False)
+    description: Mapped[str] = mapped_column(String, nullable=False)
     
+    types: Mapped[list["LocationType"]] = relationship(
+        secondary="location_type_link",
+        back_populates="locations"
+    )
+
+class LocationType(Base):
+    __tablename__ = "location_types"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(unique=True, index=True)
+
+    locations: Mapped[list["Location"]] = relationship(
+        secondary="location_type_link",
+        back_populates="types"
+    )
+    
+location_type_link = Table(
+    "location_type_link",
+    Base.metadata,
+    Column("location_id", ForeignKey("locations.id")),
+    Column("type_id", ForeignKey("location_types.id")),
+)
+

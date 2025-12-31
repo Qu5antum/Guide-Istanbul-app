@@ -1,16 +1,42 @@
-from fastapi import APIRouter, Depends
-from backend.src.models.models import User
+from fastapi import APIRouter, Depends, status
 from backend.src.dependencies.check_role import require_roles
-from backend.src.admin_services.user_role import get_user_and_check_role
+from backend.src.admin_services.user_role import get_users_roles
+from backend.src.admin_services.location_service import add_type, add_location, get_types
 from backend.src.database.db import AsyncSession, get_session
+from backend.src.schemas.schemas import LocationCreate, LocationTypeCreate
 
 router = APIRouter(
     prefix="/admin_panel",
     tags=["admins"]
 )
 
-@router.get("/admin", dependencies=[Depends(require_roles(["admin"]))])
-async def mod_endpoint(
+
+@router.get("/user_roles", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+async def get_users_amn_roles(
+    role: str | None = None,
     session: AsyncSession = Depends(get_session)
 ):
-    return  await get_user_and_check_role(session=session)
+    return  await get_users_roles(session=session, role=role)
+
+
+@router.post("/location_type", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+async def add_new_type(
+    locatoin_type: LocationTypeCreate,
+    session: AsyncSession = Depends(get_session)
+):
+    return await add_type(session=session, type_create=locatoin_type)
+
+
+@router.get("/location_type/{type_id}", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+async def get_location_types(
+    session: AsyncSession = Depends(get_session)
+):
+    return await get_types(session=session)
+    
+
+@router.post("/locatoins", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+async def add_new_location(
+    new_location: LocationCreate,
+    session: AsyncSession = Depends(get_session)
+):
+    return await add_location(session=session, location_create=new_location)

@@ -6,7 +6,6 @@ from backend.src.security.security_context import check_hashes
 from backend.src.models.models import User
 
 # authenticate user 
-
 async def auth_user(credents: OAuth2PasswordRequestForm, session: AsyncSession):
     query = select(User).where(User.username == credents.username)
     result = await session.execute(query)
@@ -14,13 +13,13 @@ async def auth_user(credents: OAuth2PasswordRequestForm, session: AsyncSession):
     
     if not user:
         raise HTTPException(
-            status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Пользователь не найден."
         )
     
     if not check_hashes(credents.password, user.password):
         raise HTTPException(
-            status.HTTP_401_UNAUTHORIZED,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Неверный пароль."
         )
     

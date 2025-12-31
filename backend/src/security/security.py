@@ -21,12 +21,12 @@ async def get_user_from_token(token: str = Depends(oauth2_scheme)):
         playload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         user_id: int = playload.get("sub")
         if user_id is None:
-            raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Invalid token!")
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token!")
         return user_id
     except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="The token has expired")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="The token has expired")
     except jwt.InvalidTokenError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
 
 

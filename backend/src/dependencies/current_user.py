@@ -21,5 +21,5 @@ async def get_current_user(
     user = result.scalar_one_or_none()
 
     if not user:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Пользовтель не найден.")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Пользовтель не найден.")
     return user

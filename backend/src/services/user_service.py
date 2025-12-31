@@ -12,7 +12,7 @@ async def add_new_user(session: AsyncSession, user_create: UserCreate):
 
     if existing_user: 
         raise HTTPException(
-            status.HTTP_400_BAD_REQUEST,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="Пользователь с этим именем уже существует"
         ) 
     
