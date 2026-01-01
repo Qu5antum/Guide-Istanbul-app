@@ -60,15 +60,8 @@ async def add_location(
             detail="Один или несколько типов локации не существуют"
         )
     
-    
-    location = Location(
-        location_title=location_create.location_title,
-        description=location_create.description,
-        price=location_create.price,
-        latitude=location_create.latitude,
-        longitude=location_create.longitude,
-        link=location_create.link,
-    )
+    data = location_create.model_dump(mode="json", exclude={"type_ids"})
+    location = Location(**data)
 
     location.types = types
 

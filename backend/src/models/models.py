@@ -40,9 +40,10 @@ class Location(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     location_title: Mapped[str] = mapped_column(String, index=True, nullable=False)
     link: Mapped[str] = mapped_column(String, nullable=False)
-    price: Mapped[float] = mapped_column(Float, nullable=False)
+    price: Mapped[str] = mapped_column(String, nullable=False)
     latitude: Mapped[float] = mapped_column(Float, nullable=False)
     longitude: Mapped[float] = mapped_column(Float, nullable=False)
+    adres: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[str] = mapped_column(String, nullable=False)
     
     types: Mapped[list["LocationType"]] = relationship(

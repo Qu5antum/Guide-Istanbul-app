@@ -20,11 +20,12 @@ class UserResponce(BaseModel):
 class LocationCreate(BaseModel):
     location_title: str
     description: str
-    price: float | None = Field(None, ge=0)
+    price: str | None = None
     latitude: float = Field(ge=-90, le=90)
     longitude: float = Field(ge=-180, le=180)
+    adres: str
     link: HttpUrl | None = None
-    type_id: List[int]
+    type_ids: List[int]
 
 
 class LocationResponce(BaseModel):
@@ -32,6 +33,7 @@ class LocationResponce(BaseModel):
     location_title: str
     latitude: float
     longitude: float
+    adres: str
     link: HttpUrl | None
 
     class Config:
