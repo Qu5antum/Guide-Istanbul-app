@@ -28,6 +28,17 @@ class LocationCreate(BaseModel):
     type_ids: List[int]
 
 
+class LocationUpdate(BaseModel):
+    location_title: str | None = None
+    description: str | None = None
+    price: str | None = None
+    latitude: float | None = Field(None, ge=-90, le=90)
+    longitude: float | None = Field(None, ge=-180, le=180)
+    adres: str | None = None
+    link: HttpUrl | None = None
+    type_ids: List[int] | None = None
+
+
 class LocationResponce(BaseModel):
     id: int
     location_title: str

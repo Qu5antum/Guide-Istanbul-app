@@ -6,6 +6,7 @@ import asyncio
 import uvicorn
 from backend.src.routers.user_router import router as user_router
 from backend.src.routers.admin_panel_router import router as admin_panel
+from backend.src.routers.locations_router import router as location_router
 
 app = FastAPI(
     title = settings.app_name,
@@ -22,6 +23,7 @@ app.add_middleware(
 )
 
 app.include_router(user_router)
+app.include_router(location_router)
 app.include_router(admin_panel)
 
 if __name__ == "__main__":

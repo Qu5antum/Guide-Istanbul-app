@@ -1,7 +1,7 @@
 from backend.src.database.db import AsyncSession
 from backend.src.models.models import LocationType, Location
 from fastapi import HTTPException, status
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.exc import IntegrityError
 
 # add new types for locations
@@ -70,6 +70,57 @@ async def add_location(
     await session.refresh(location)
 
     return location
+
+# update location
+async def update_location_by_id(
+        session: AsyncSession, 
+        location_id: int,
+        location_update: str
+):
+    existing_location = await session.get(Location, location_id)
+
+    if not existing_location:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Локация по этому id не найдено."
+        )
+    
+    data = location_update.model_dump(
+        exclude_unset=True,
+        exclude={"types_id"}
+    )
+
+    for field, value in data.items():
+        setattr(existing_location, field, value)
+
+    if location_update.types_ids is not None:
+        result = await session.execute(
+            select(LocationType)
+            .where(LocationType.id.in_(location_update.types_ids))
+        )
+
+        types = result.scalars().all()
+
+        if len(types) != len(set(location_update.type_ids)):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Один или несколько типов локации не существуют"
+            )
+
+        existing_location.types = types
+
+    await session.commit()
+    await session.refresh(existing_location)
+
+    return existing_location
+    
+
+
+    
+
+
+
+    
     
 
     
