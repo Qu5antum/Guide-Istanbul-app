@@ -65,7 +65,7 @@ class LocationType(Base):
 location_type_link = Table(
     "location_type_link",
     Base.metadata,
-    Column("location_id", ForeignKey("locations.id")),
-    Column("type_id", ForeignKey("location_types.id")),
+    Column("location_id", ForeignKey("locations.id", ondelete="CASCADE")),
+    Column("type_id", ForeignKey("location_types.id", ondelete="CASCADE")),
 )
 

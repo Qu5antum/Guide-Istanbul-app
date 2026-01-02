@@ -1,7 +1,8 @@
 from backend.src.database.db import AsyncSession
 from backend.src.models.models import LocationType, Location
 from fastapi import HTTPException, status
-from sqlalchemy import select, update
+from sqlalchemy import select, delete
+from sqlalchemy.orm import selectinload
 from sqlalchemy.exc import IntegrityError
 
 # add new types for locations
@@ -77,7 +78,13 @@ async def update_location_by_id(
         location_id: int,
         location_update: str
 ):
-    existing_location = await session.get(Location, location_id)
+    result = await session.execute(
+        select(Location)
+        .options(selectinload(Location.types))
+        .where(Location.id == location_id)
+    )
+    
+    existing_location = result.scalar_one_or_none()
 
     if not existing_location:
         raise HTTPException(
@@ -86,6 +93,7 @@ async def update_location_by_id(
         )
     
     data = location_update.model_dump(
+        mode="json",
         exclude_unset=True,
         exclude={"types_id"}
     )
@@ -93,10 +101,10 @@ async def update_location_by_id(
     for field, value in data.items():
         setattr(existing_location, field, value)
 
-    if location_update.types_ids is not None:
+    if location_update.type_ids is not None:
         result = await session.execute(
             select(LocationType)
-            .where(LocationType.id.in_(location_update.types_ids))
+            .where(LocationType.id.in_(location_update.type_ids))
         )
 
         types = result.scalars().all()
@@ -113,6 +121,26 @@ async def update_location_by_id(
     await session.refresh(existing_location)
 
     return existing_location
+
+
+async def delete_locations_by_id(
+    session: AsyncSession,
+    location_id: int
+):
+    existing_location = await session.get(Location, location_id)
+
+    if not existing_location:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Локация по этому id не найдено."
+        )
+    
+    await session.delete(existing_location)
+    await session.commit()
+
+    return {"detail": "Локация успешно удалена."}
+    
+
     
 
 
