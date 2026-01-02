@@ -1,6 +1,7 @@
 from backend.src.database.db import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import Table, Column, ForeignKey, Integer, String, Float
+from sqlalchemy import Table, Column, ForeignKey, Integer, String, Float, DateTime, func
+from datetime import datetime
 
 class User(Base):
     __tablename__ = "users"
@@ -13,6 +14,11 @@ class User(Base):
     roles: Mapped[list["Role"]] = relationship(
         secondary="user_roles",
         back_populates="users"
+    )
+
+    reviews: Mapped[list["Review"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
     )
 
 class Role(Base):
@@ -51,6 +57,11 @@ class Location(Base):
         back_populates="locations"
     )
 
+    reviews: Mapped[list["Review"]] = relationship(
+        back_populates="location",
+        cascade="all, delete-orphan"
+    )
+
 class LocationType(Base):
     __tablename__ = "location_types"
 
@@ -68,4 +79,26 @@ location_type_link = Table(
     Column("location_id", ForeignKey("locations.id", ondelete="CASCADE")),
     Column("type_id", ForeignKey("location_types.id", ondelete="CASCADE")),
 )
+
+
+class Review(Base):
+    __tablename__ = "reviews"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    rating: Mapped[int] = mapped_column(Integer, nullable=False)
+    text: Mapped[str] = mapped_column(String, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now()
+    )
+
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE")
+    )
+    location_id: Mapped[int] = mapped_column(
+        ForeignKey("locations.id", ondelete="CASCADE")
+    )
+
+    user: Mapped["User"] = relationship(back_populates="reviews")
+    location: Mapped["Location"] = relationship(back_populates="reviews")
 

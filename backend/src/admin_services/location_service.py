@@ -122,7 +122,7 @@ async def update_location_by_id(
 
     return existing_location
 
-
+# delete location by id
 async def delete_locations_by_id(
     session: AsyncSession,
     location_id: int
