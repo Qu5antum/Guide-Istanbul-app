@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr, HttpUrl, Field
 from typing import List
+from datetime import timezone
 
 class UserCreate(BaseModel):
     username: str
@@ -60,3 +61,10 @@ class LocationTypeResponce(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ReviewCreate(BaseModel):
+    text: str = Field(min_length=3)
+    rating: int = Field(ge=1, le=5)
+    user_id: int
+    location_id: int
