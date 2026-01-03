@@ -1,10 +1,10 @@
 from backend.src.database.db import AsyncSession
 from sqlalchemy import select
 from backend.src.models.models import Location, Review
-from backend.src.schemas.schemas import ReviewCreate
 from fastapi import HTTPException, status, Depends
 
 
+# adding a new comment from a user by location id
 async def create_new_review(
         session: AsyncSession, 
         user: str,
@@ -12,7 +12,7 @@ async def create_new_review(
     ):
     location = await session.get(Location, data.location_id)
     
-    if location is None:
+    if not location:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, 
             detail="Локация по этому id не найдена."
@@ -30,6 +30,44 @@ async def create_new_review(
     await session.refresh(new_review)
 
     return {f"Пользователь {user.username}, оставил коментарии {new_review.text}"}
+
+# update review(comment)
+async def update_review_by_id(
+        session: AsyncSession,
+        review_id: int,
+        user: str,
+        data: str
+):
+    review = await session.get(Review, review_id)
+
+    if not review:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Коментарии не найден."
+        )
+    
+    if review.user_id != user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Вы не можете редактировать чужой комментарий"
+        )
+    
+    update_data = data.model_dump(exclude_unset=True)
+
+    for field, value in update_data.items():
+        setattr(review, field, value)
+
+    await session.commit()
+    await session.refresh(review)
+
+    return {"Ваш коментарии был успешно измнен."}
+
+    
+
+
+    
+    
+    
 
 
 

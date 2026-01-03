@@ -34,4 +34,4 @@ async def add_new_user(session: AsyncSession, user_create: UserCreate):
     await session.commit()
     await session.refresh(new_user)
 
-    return {"message: ", "Успешно зарегистрирован.", new_user}
+    return {"message: ", "Успешно зарегистрирован."}

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, HttpUrl, Field
+from pydantic import BaseModel, EmailStr, HttpUrl, Field, field_validator
 from typing import List
 from datetime import timezone
 
@@ -68,3 +68,28 @@ class ReviewCreate(BaseModel):
     rating: int = Field(ge=1, le=5)
     user_id: int
     location_id: int
+
+    @field_validator("text")
+    @classmethod
+    def check_for_bad_words(cls, text):
+        bad_words = ['fuck', 'asshole', 'dickhead', 'bitch', 'dumbass', 'ass', 'bastard', 'dick']
+
+        if any(word in text.lower() for word in bad_words):
+            raise ValueError("Ваш комментарий содержит недопустимые слова.")
+
+        return text
+    
+class ReviewUpdate(BaseModel):
+    text: str = Field(min_length=3)
+    rating: int | None = Field(None, ge=1, le=5)
+
+    @field_validator("text")
+    @classmethod
+    def check_for_bad_words(cls, text):
+        bad_words = ['fuck', 'asshole', 'dickhead', 'bitch', 'dumbass', 'ass', 'bastard', 'dick']
+
+        if any(word in text.lower() for word in bad_words):
+            raise ValueError("Ваш комментарий содержит недопустимые слова.")
+
+        return text
+

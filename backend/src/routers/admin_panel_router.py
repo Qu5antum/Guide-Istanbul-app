@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, status
 from backend.src.dependencies.check_role import require_roles
 from backend.src.admin_services.user_role import get_users_roles
-from backend.src.admin_services.location_service import add_type, add_location, get_types, update_location_by_id, delete_locations_by_id
+from backend.src.admin_services.admin_location_service import add_type, add_location, get_types, update_location_by_id, delete_locations_by_id
+from backend.src.admin_services.admin_reviews_service import delete_review_by_id, get_all_reviews
 from backend.src.database.db import AsyncSession, get_session
 from backend.src.schemas.schemas import LocationCreate, LocationTypeCreate, LocationUpdate
 
@@ -34,7 +35,7 @@ async def get_location_types(
     return await get_types(session=session)
     
 
-@router.post("/locatoins", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+@router.post("/locatoin", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
 async def add_new_location(
     new_location: LocationCreate,
     session: AsyncSession = Depends(get_session)
@@ -42,7 +43,7 @@ async def add_new_location(
     return await add_location(session=session, location_create=new_location)
 
 
-@router.put("/locations/{location_id}", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+@router.put("/location/{location_id}", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
 async def update_location(
     location_id: int,
     location_update: LocationUpdate,
@@ -51,9 +52,25 @@ async def update_location(
     return await update_location_by_id(session=session, location_id=location_id, location_update=location_update)
 
 
-@router.delete("/locations/{location_id}", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+@router.delete("/location/{location_id}", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
 async def delete_location(
     location_id: int,
     session: AsyncSession = Depends(get_session)
 ):
     return await delete_locations_by_id(session=session, location_id=location_id)
+
+
+@router.get("/review", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+async def get_review(
+    review_id: int | None = None,
+    session: AsyncSession = Depends(get_session)
+):
+    return await get_all_reviews(session=session, review_id=review_id)
+
+
+@router.delete("/review", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+async def delete_review(
+    review_id: int,
+    session: AsyncSession = Depends(get_session)
+):
+    return await delete_review_by_id(session=session, review_id=review_id)
