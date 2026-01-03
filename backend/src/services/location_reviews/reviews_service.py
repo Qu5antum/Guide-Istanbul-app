@@ -62,6 +62,29 @@ async def update_review_by_id(
 
     return {"Ваш коментарии был успешно измнен."}
 
+async def get_reviews_by_location_id(
+        session: AsyncSession,
+        location_id: int
+):
+    location = await session.get(Location, location_id)
+    
+    if not location:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Локация по этому id не найдена."
+        )
+    
+    result = await session.execute(
+        select(Review)
+        .where(Review.location_id == location_id)
+    )
+
+    return result.scalars().all()
+
+    
+
+    
+
     
 
 
