@@ -14,13 +14,13 @@ async def auth_user(credents: OAuth2PasswordRequestForm, session: AsyncSession):
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Пользователь не найден."
+            detail="User not found."
         )
     
     if not check_hashes(credents.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Неверный пароль."
+            detail="Incorrect password."
         )
     
     token = await create_jwt_token({"sub": str(user.id)})

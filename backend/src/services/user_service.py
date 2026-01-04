@@ -13,7 +13,7 @@ async def add_new_user(session: AsyncSession, user_create: UserCreate):
     if existing_user: 
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Пользователь с этим именем уже существует"
+            detail="A user with this name already exists."
         ) 
     
     role = await session.scalar(
@@ -34,4 +34,4 @@ async def add_new_user(session: AsyncSession, user_create: UserCreate):
     await session.commit()
     await session.refresh(new_user)
 
-    return {"message: ", "Успешно зарегистрирован."}
+    return {"message: ", "Registered successfully."}

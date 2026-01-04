@@ -13,7 +13,7 @@ async def get_all_reviews(
         if not review:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="Коментарии не найден."
+                detail="No comments found."
             )
         result = await session.execute(
             select(Review).where(Review.id == review_id)
@@ -36,10 +36,10 @@ async def delete_review_by_id(
     if not review:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Коментарии не найден."
+            detail="No comments found."
         )
     
     await session.delete(review)
     await session.commit()
 
-    return {"detail": "Комментарий успешно удалён"}
+    return {"detail": "The comment has been successfully deleted."}

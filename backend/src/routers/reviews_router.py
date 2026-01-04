@@ -8,7 +8,7 @@ from backend.src.services.location_reviews.reviews_service import create_new_rev
 from backend.src.services.location_reviews.reviews_service import get_reviews_by_location_id
 
 router = APIRouter(
-    prefix="/review",
+    prefix="/location/review",
     tags=["reviews"]
 )
 

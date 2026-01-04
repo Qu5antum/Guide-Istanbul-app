@@ -20,7 +20,7 @@ async def add_type(
         await session.rollback()
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Такой тип локации уже существует"
+            detail="This type of location already exists."
     )
 
 async def get_types(
@@ -44,7 +44,7 @@ async def add_location(
     if existing_title: 
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Локация с таким заголовком уже существует."
+            detail="A location with this title already exists."
         )
     
     type_result = await session.execute(
@@ -58,7 +58,7 @@ async def add_location(
     if len(types) != len(set(location_create.type_ids)):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Один или несколько типов локации не существуют"
+            detail="One or more location types do not exist."
         )
     
     data = location_create.model_dump(mode="json", exclude={"type_ids"})
@@ -89,7 +89,7 @@ async def update_location_by_id(
     if not existing_location:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, 
-            detail="Локация по этому id не найдено."
+            detail="Location by this id not found."
         )
     
     data = location_update.model_dump(
@@ -112,7 +112,7 @@ async def update_location_by_id(
         if len(types) != len(set(location_update.type_ids)):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Один или несколько типов локации не существуют"
+                detail="One or more location types do not exist."
             )
 
         existing_location.types = types
@@ -132,13 +132,13 @@ async def delete_locations_by_id(
     if not existing_location:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, 
-            detail="Локация по этому id не найдено."
+            detail="Location by this id not found."
         )
     
     await session.delete(existing_location)
     await session.commit()
 
-    return {"detail": "Локация успешно удалена."}
+    return {"detail": "Location successfully deleted."}
     
 
     
