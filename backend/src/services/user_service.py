@@ -6,8 +6,9 @@ from fastapi import HTTPException, status
 from backend.src.security.security_context import hash_password
 
 async def add_new_user(session: AsyncSession, user_create: UserCreate):
-    query = select(User).where(User.username == user_create.username)
-    result = await session.execute(query)
+    result = await session.execute(
+        select(User).where(User.username == user_create.username)
+    )
     existing_user = result.scalar_one_or_none()
 
     if existing_user: 

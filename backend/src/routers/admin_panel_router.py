@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from backend.src.dependencies.check_role import require_roles
 from backend.src.admin_services.user_role import get_users_roles
-from backend.src.admin_services.admin_location_service import add_type, add_location, get_types, update_location_by_id, delete_locations_by_id
+from backend.src.admin_services.admin_location_service import add_type, add_location, update_location_by_id, delete_locations_by_id
 from backend.src.admin_services.admin_reviews_service import delete_review_by_id, get_all_reviews
 from backend.src.database.db import AsyncSession, get_session
 from backend.src.schemas.schemas import LocationCreate, LocationTypeCreate, LocationUpdate
@@ -26,13 +26,6 @@ async def add_new_type(
     session: AsyncSession = Depends(get_session)
 ):
     return await add_type(session=session, type_create=locatoin_type)
-
-
-@router.get("/location_type/{type_id}", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
-async def get_location_types(
-    session: AsyncSession = Depends(get_session)
-):
-    return await get_types(session=session)
     
 
 @router.post("/locatoin", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)

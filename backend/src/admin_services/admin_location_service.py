@@ -23,22 +23,15 @@ async def add_type(
             detail="This type of location already exists."
     )
 
-async def get_types(
-        session: AsyncSession,
-):
-    result = await session.execute(
-        select(LocationType).order_by(LocationType.name)
-    )
-    return result.scalars().all()
-    
 
 # add new location
 async def add_location(
         session: AsyncSession,
         location_create: str
 ):
-    query = select(Location).where(Location.location_title == location_create.location_title)
-    result = await session.execute(query)
+    result = await session.execute(
+        select(Location).where(Location.location_title == location_create.location_title)
+    )
     existing_title = result.scalar_one_or_none()
 
     if existing_title: 
