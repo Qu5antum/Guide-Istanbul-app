@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from backend.src.database.db import init_models
 from fastapi.middleware.cors import CORSMiddleware
-from backend.src.config.config import settings
+from backend.src.core.config.config import settings
 import asyncio
 import uvicorn
-from backend.src.routers.user_router import router as user_router
-from backend.src.routers.admin_panel_router import router as admin_panel
-from backend.src.routers.locations_router import router as location_router
-from backend.src.routers.reviews_router import router as review_router
+from backend.src.api.routers.user_router import router as user_router
+from backend.src.api.routers.admin_panel_router import router as admin_panel
+from backend.src.api.routers.locations_router import router as location_router
+from backend.src.api.routers.reviews_router import router as review_router
 
 app = FastAPI(
     title = settings.app_name,

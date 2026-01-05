@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException, status
 from backend.src.database.db import get_session, AsyncSession
 from backend.src.models.models import User
-from backend.src.security.security import get_user_from_token
+from backend.src.core.security.security import get_user_from_token
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 

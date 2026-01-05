@@ -1,9 +1,9 @@
 from backend.src.database.db import AsyncSession, get_session
-from backend.src.schemas.schemas import ReviewCreate, ReviewUpdate
+from backend.src.api.schemas.schemas import ReviewCreate, ReviewUpdate
 from backend.src.models.models import User
 from fastapi import HTTPException, status, Depends, APIRouter
-from backend.src.dependencies.current_user import get_current_user
-from backend.src.dependencies.check_role import require_roles
+from backend.src.api.dependencies.current_user import get_current_user
+from backend.src.api.dependencies.check_role import require_roles
 from backend.src.services.location_reviews.reviews_service import create_new_review, update_review_by_id
 from backend.src.services.location_reviews.reviews_service import get_reviews_by_location_id
 

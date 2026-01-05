@@ -1,9 +1,9 @@
 from backend.src.database.db import AsyncSession
-from backend.src.schemas.schemas import UserCreate
+from backend.src.api.schemas.schemas import UserCreate
 from sqlalchemy import select
 from backend.src.models.models import User, Role
 from fastapi import HTTPException, status
-from backend.src.security.security_context import hash_password
+from backend.src.core.security.security_context import hash_password
 
 async def add_new_user(session: AsyncSession, user_create: UserCreate):
     result = await session.execute(

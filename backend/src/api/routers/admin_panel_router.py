@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, status
-from backend.src.dependencies.check_role import require_roles
+from backend.src.api.dependencies.check_role import require_roles
 from backend.src.admin_services.user_role import get_users_roles
 from backend.src.admin_services.admin_location_service import add_type, add_location, update_location_by_id, delete_locations_by_id
 from backend.src.admin_services.admin_reviews_service import delete_review_by_id, get_all_reviews
 from backend.src.database.db import AsyncSession, get_session
-from backend.src.schemas.schemas import LocationCreate, LocationTypeCreate, LocationUpdate
+from backend.src.api.schemas.schemas import LocationCreate, LocationTypeCreate, LocationUpdate
 
 router = APIRouter(
     prefix="/admin_panel",

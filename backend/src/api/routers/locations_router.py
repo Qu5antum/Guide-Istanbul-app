@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 from backend.src.services.locations_service import get_all_locations, search_location_by_title, get_location_by_category, get_types
-from backend.src.dependencies.check_role import require_roles
+from backend.src.api.dependencies.check_role import require_roles
 from backend.src.database.db import AsyncSession, get_session
 
 router = APIRouter(
@@ -9,7 +9,7 @@ router = APIRouter(
 )
 
 
-@router.get("/location_type/{type_id}", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+@router.get("/location_type/{type_id}", dependencies=[Depends(require_roles(["user", "admin"]))], status_code=status.HTTP_200_OK)
 async def get_location_types(
     session: AsyncSession = Depends(get_session)
 ):

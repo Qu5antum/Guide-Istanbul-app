@@ -1,8 +1,8 @@
 from fastapi import HTTPException, status, Depends
 from sqlalchemy import select
-from backend.src.security.security import create_jwt_token, OAuth2PasswordRequestForm
+from backend.src.core.security.security import create_jwt_token, OAuth2PasswordRequestForm
 from backend.src.database.db import AsyncSession
-from backend.src.security.security_context import check_hashes
+from backend.src.core.security.security_context import check_hashes
 from backend.src.models.models import User
 
 # authenticate user 

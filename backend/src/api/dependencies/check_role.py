@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, status
-from backend.src.dependencies.current_user import get_current_user
+from backend.src.api.dependencies.current_user import get_current_user
 from backend.src.models.models import User
 
 # Провкрка пользователя на админа или простого пользователя

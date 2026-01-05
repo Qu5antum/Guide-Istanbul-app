@@ -2,9 +2,9 @@
 from fastapi import status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import select
-from backend.src.config.config import settings
+from backend.src.core.config.config import settings
 import jwt, datetime
-from backend.src.security.security_context import *
+from backend.src.core.security.security_context import *
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/user/login")
 
