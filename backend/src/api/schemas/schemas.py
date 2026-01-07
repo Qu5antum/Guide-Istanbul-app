@@ -94,11 +94,6 @@ class ReviewUpdate(BaseModel):
         return text
     
 
-class AiMessagesCreate(BaseModel):
-    prompt: str
-    ai_message: str
-    user_id: int
-
 
 
 
