@@ -7,12 +7,16 @@ class Config:
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: str
     URL_DATABASE: str
+    AI_API_KEY: str
+    SYSTEM_PROMPT: str
+    MODEL: str
+
     app_name: str = "Guide-Istanbul-App"
     debug: bool = True
     cors_origins: list = field(default_factory=lambda: ["*"])
 
 
-def load_config(path: str = None) -> Config:
+def load_config(path: str | None = None) -> Config:
     env = Env()
     env.read_env(path)
 
@@ -21,6 +25,9 @@ def load_config(path: str = None) -> Config:
         ALGORITHM=env.str("ALGORITHM"),
         ACCESS_TOKEN_EXPIRE_MINUTES=env.int("ACCESS_TOKEN_EXPIRE_MINUTES"),
         URL_DATABASE = env.str("URL_DATABASE"),
+        AI_API_KEY = env.str("AI_API_KEY"),
+        SYSTEM_PROMPT = env.str("SYSTEM_PROMPT"),
+        MODEL = env.str("MODEL"),
     )
 
 settings = load_config()

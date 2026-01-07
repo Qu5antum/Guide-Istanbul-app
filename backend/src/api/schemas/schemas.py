@@ -92,4 +92,14 @@ class ReviewUpdate(BaseModel):
             raise ValueError("Ваш комментарий содержит недопустимые слова.")
 
         return text
+    
+
+class AiMessagesCreate(BaseModel):
+    prompt: str
+    ai_message: str
+    user_id: int
+
+
+
+
 

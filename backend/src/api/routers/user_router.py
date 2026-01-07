@@ -12,6 +12,7 @@ router = APIRouter(
     tags=["users"]
 )
 
+
 @router.post("/register", status_code=status.HTTP_200_OK)
 async def register_new_user(
     user_create: UserCreate, 

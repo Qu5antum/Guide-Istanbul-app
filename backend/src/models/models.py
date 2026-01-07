@@ -1,6 +1,6 @@
 from backend.src.database.db import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import Table, Column, ForeignKey, Integer, String, Float, DateTime, func
+from sqlalchemy import Table, Column, ForeignKey, Integer, String, Float, DateTime, Text, func
 from datetime import datetime
 
 class User(Base):
@@ -17,6 +17,11 @@ class User(Base):
     )
 
     reviews: Mapped[list["Review"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
+    ai_messages: Mapped[list["AiMessages"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan"
     )
@@ -39,6 +44,36 @@ user_roles = Table(
     Column("user_id", ForeignKey("users.id"), primary_key=True),
     Column("role_id", ForeignKey("roles.id"), primary_key=True),
 )
+
+
+class AiMessages(Base):
+    __tablename__ = "aibot_messages"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+
+    content: Mapped[str] = mapped_column(
+        Text,
+        nullable=False
+    )
+
+    role: Mapped[str] = mapped_column(
+        String, 
+        nullable=False
+    )
+
+    timestamp: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now()
+    )
+
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False
+    )
+
+    user: Mapped["User"] = relationship(back_populates="ai_messages")
+
+
 
 class Location(Base):
     __tablename__ = "locations"

@@ -8,6 +8,7 @@ from backend.src.api.routers.user_router import router as user_router
 from backend.src.api.routers.admin_panel_router import router as admin_panel
 from backend.src.api.routers.locations_router import router as location_router
 from backend.src.api.routers.reviews_router import router as review_router
+from backend.src.api.routers.ai_assistant_router import router as ai_assistant_router
 
 app = FastAPI(
     title = settings.app_name,
@@ -26,6 +27,7 @@ app.add_middleware(
 app.include_router(user_router)
 app.include_router(location_router)
 app.include_router(review_router)
+app.include_router(ai_assistant_router)
 app.include_router(admin_panel)
 
 if __name__ == "__main__":

@@ -12,6 +12,7 @@ router = APIRouter(
     tags=["reviews"]
 )
 
+
 @router.get("/", dependencies=[Depends(require_roles(["user", "admin"]))], status_code=status.HTTP_200_OK)
 async def get_review(
     location_id: int,

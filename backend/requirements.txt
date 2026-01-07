@@ -7,3 +7,7 @@ uvicorn
 asyncpg
 python-multipart
 argon2_cffi
+langchain
+langchain-google-genai
+python-dotenv
+
