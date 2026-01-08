@@ -3,6 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.messages import SystemMessage
 from langchain.agents import create_agent
 from backend.src.core.config.config import settings
+from backend.src.core.tools.user_searching_tool import user_search_request_by_locationtype
 
 
 llm = ChatGoogleGenerativeAI(
@@ -15,7 +16,7 @@ system_message = SystemMessage(
     content=settings.SYSTEM_PROMPT
 )
 
-tools = []
+tools = [user_search_request_by_locationtype]
 
 agent = create_agent(
     model=llm,

@@ -5,6 +5,7 @@ from backend.src.api.dependencies.current_user import get_current_user
 from backend.src.models.models import User
 from backend.src.services.ai_sevice.ai_message_service import save_chat_message, get_messages_by_user_id
 from backend.src.services.ai_sevice.ai_responce import ai_response
+from backend.src.admin_services.ai_message_admin_service import delete_chat_history
 
 
 router = APIRouter(
@@ -37,6 +38,14 @@ async def get_message_history(
     session: AsyncSession = Depends(get_session)
 ):
     return await get_messages_by_user_id(session=session, user_id=user.id)
+
+
+@router.delete("/", dependencies=[Depends(require_roles(["user", "admin"]))], status_code=status.HTTP_200_OK)
+async def delete_chat(
+    user: User = Depends(get_current_user),
+    session: AsyncSession = Depends(get_session)
+):
+    return await delete_chat_history(session=session, user_id=user.id)
     
 
 

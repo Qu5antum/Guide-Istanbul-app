@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, status
 from backend.src.api.dependencies.check_role import require_roles
-from backend.src.admin_services.user_role import get_users_roles
+from backend.src.admin_services.user_adminservice import get_users_roles, get_users_by_id
 from backend.src.admin_services.admin_location_service import add_type, add_location, update_location_by_id, delete_locations_by_id
 from backend.src.admin_services.admin_reviews_service import delete_review_by_id, get_all_reviews
+from backend.src.admin_services.ai_message_admin_service import delete_chat_history
 from backend.src.database.db import AsyncSession, get_session
 from backend.src.api.schemas.schemas import LocationCreate, LocationTypeCreate, LocationUpdate
 
@@ -11,6 +12,14 @@ router = APIRouter(
     tags=["admins"]
 )
 
+"""---------------------User functions---------------------"""
+@router.get("/user_roles", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+async def get_users(
+    user_id: int | None = None,
+    session: AsyncSession = Depends(get_session)
+):
+    return await get_users_by_id(session=session, user_id=user_id)
+
 
 @router.get("/user_roles", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
 async def get_users_amn_roles(  
@@ -18,8 +27,10 @@ async def get_users_amn_roles(
     session: AsyncSession = Depends(get_session)
 ):
     return  await get_users_roles(session=session, role=role)
+"""----------------------------------------------------------"""
 
 
+"""-----------------------------Location functions-----------------------------"""
 @router.post("/location_type", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
 async def add_new_type(
     locatoin_type: LocationTypeCreate,
@@ -28,7 +39,7 @@ async def add_new_type(
     return await add_type(session=session, type_create=locatoin_type)
     
 
-@router.post("/locatoin", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+@router.post("/location", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
 async def add_new_location(
     new_location: LocationCreate,
     session: AsyncSession = Depends(get_session)
@@ -51,8 +62,11 @@ async def delete_location(
     session: AsyncSession = Depends(get_session)
 ):
     return await delete_locations_by_id(session=session, location_id=location_id)
+"""----------------------------------------------------------------------------------"""
 
 
+
+"""---------------------------------Reviews functions-----------------------------------------"""
 @router.get("/review", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
 async def get_review(
     review_id: int | None = None,
@@ -67,3 +81,14 @@ async def delete_review(
     session: AsyncSession = Depends(get_session)
 ):
     return await delete_review_by_id(session=session, review_id=review_id)
+"""------------------------------------------------------------------------------------"""
+
+
+"""--------------------------------------Ai Messages functions------------------------------------"""
+@router.delete("/review", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+async def delete_chat(
+    user_id: int,
+    session: AsyncSession = Depends(get_session)
+):
+    return await delete_chat_history(session=session, user_id=user_id)
+    
