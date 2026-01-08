@@ -26,7 +26,10 @@ async def get_ai_message(
 
     await save_chat_message(session=session, user_id=user.id, content=ai_message_response, role="assistant")
 
-    return {"answer: ", ai_message_response}
+
+
+
+    return {"answer: ": ai_message_response}
 
 
 
@@ -36,6 +39,7 @@ async def get_message_history(
     session: AsyncSession = Depends(get_session)
 ):
     return await get_messages_by_user_id(session=session, user_id=user.id)
+
 
 
 @router.delete("/", dependencies=[Depends(require_roles(["user", "admin"]))], status_code=status.HTTP_200_OK)

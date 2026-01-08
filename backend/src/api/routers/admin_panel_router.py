@@ -13,7 +13,7 @@ router = APIRouter(
 )
 
 """---------------------User functions---------------------"""
-@router.get("/user_roles", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+@router.get("/users", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
 async def get_users(
     user_id: int | None = None,
     session: AsyncSession = Depends(get_session)
@@ -85,7 +85,7 @@ async def delete_review(
 
 
 """--------------------------------------Ai Messages functions------------------------------------"""
-@router.delete("/review", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
+@router.delete("/chat", dependencies=[Depends(require_roles(["admin"]))], status_code=status.HTTP_200_OK)
 async def delete_chat(
     user_id: int,
     session: AsyncSession = Depends(get_session)

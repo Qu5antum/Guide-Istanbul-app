@@ -1,6 +1,6 @@
 from backend.src.database.db import AsyncSession
 from backend.src.models.models import AiMessages
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from fastapi import HTTPException, status
 
 
@@ -49,13 +49,14 @@ async def delete_chat_history(
         user_id: int
 ):
     query = (
-        select(AiMessages)
+        delete(AiMessages)
         .where(AiMessages.user_id == user_id)
     )
 
-    await session.delete(query)
+    await session.execute(query)
+    await session.commit()  
 
-    return {"message", "Chat history deleted."}
+    return {"message": "Chat history deleted."}
     
 
 
