@@ -5,7 +5,7 @@ from backend.src.api.dependencies.current_user import get_current_user
 from backend.src.models.models import User
 from backend.src.services.ai_sevice.ai_message_service import save_chat_message, get_messages_by_user_id
 from backend.src.services.ai_sevice.ai_responce import ai_response
-from backend.src.admin_services.ai_message_admin_service import delete_chat_history
+from backend.src.services.ai_sevice.ai_message_service import delete_chat_history
 
 
 router = APIRouter(
@@ -25,8 +25,6 @@ async def get_ai_message(
     ai_message_response = await ai_response(user_prompt=user_prompt)
 
     await save_chat_message(session=session, user_id=user.id, content=ai_message_response, role="assistant")
-
-    await session.commit()
 
     return {"answer: ", ai_message_response}
 

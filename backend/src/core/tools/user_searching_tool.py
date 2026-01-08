@@ -4,7 +4,6 @@ from backend.src.services.locations_service import get_location_by_category
 import json
 
 
-
 @tool
 async def user_search_request_by_locationtype(type_name: str):
     """

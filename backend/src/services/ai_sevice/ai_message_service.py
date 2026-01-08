@@ -43,6 +43,22 @@ async def get_messages_by_user_id(
     
 
 
+# delete history by user_id
+async def delete_chat_history(
+        session: AsyncSession,
+        user_id: int
+):
+    query = (
+        select(AiMessages)
+        .where(AiMessages.user_id == user_id)
+    )
+
+    await session.delete(query)
+
+    return {"message", "Chat history deleted."}
+    
+
+
     
 
 

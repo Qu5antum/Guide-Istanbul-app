@@ -3,7 +3,7 @@ from backend.src.api.dependencies.check_role import require_roles
 from backend.src.admin_services.user_adminservice import get_users_roles, get_users_by_id
 from backend.src.admin_services.admin_location_service import add_type, add_location, update_location_by_id, delete_locations_by_id
 from backend.src.admin_services.admin_reviews_service import delete_review_by_id, get_all_reviews
-from backend.src.admin_services.ai_message_admin_service import delete_chat_history
+from backend.src.services.ai_sevice.ai_message_service import delete_chat_history
 from backend.src.database.db import AsyncSession, get_session
 from backend.src.api.schemas.schemas import LocationCreate, LocationTypeCreate, LocationUpdate
 
