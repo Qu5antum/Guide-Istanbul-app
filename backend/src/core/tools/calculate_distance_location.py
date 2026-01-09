@@ -1,6 +1,8 @@
 import math
+from langchain.tools import tool
 
 
+@tool
 async def calculate_distance(
     user_lat: float,
     user_lng: float,

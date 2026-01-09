@@ -95,6 +95,11 @@ class ReviewUpdate(BaseModel):
     
 
 
+class UserLocation(BaseModel):
+    lat: float
+    lon: float
+
+
 
 
 

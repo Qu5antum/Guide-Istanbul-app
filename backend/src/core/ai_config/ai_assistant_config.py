@@ -4,11 +4,12 @@ from langchain.messages import SystemMessage
 from langchain.agents import create_agent
 from backend.src.core.config.config import settings
 from backend.src.core.tools.user_searching_tool import user_search_request_by_locationtype
+from backend.src.core.tools.calculate_distance_location import calculate_distance
 
 
 llm = ChatGoogleGenerativeAI(
     model=settings.MODEL,
-    temperature=0.4,
+    temperature=0.1,
     api_key=settings.AI_API_KEY
 )
 
@@ -16,7 +17,7 @@ system_message = SystemMessage(
     content=settings.SYSTEM_PROMPT
 )
 
-tools = [user_search_request_by_locationtype]
+tools = [user_search_request_by_locationtype, calculate_distance]
 
 agent = create_agent(
     model=llm,

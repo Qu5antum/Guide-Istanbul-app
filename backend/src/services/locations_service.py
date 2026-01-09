@@ -18,6 +18,7 @@ async def get_types(
 async def get_all_locations(session: AsyncSession):
     result = await session.execute(
         select(Location)
+        .options(selectinload(Location.types))
     )
     return result.scalars().all()
 
