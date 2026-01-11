@@ -17,6 +17,8 @@ async def save_chat_message(
             role=role,
             content=content
         ))
+
+        await session.commit()
         
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

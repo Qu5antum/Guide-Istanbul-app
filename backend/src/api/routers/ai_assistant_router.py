@@ -24,13 +24,16 @@ async def get_ai_message(
     user: User = Depends(get_current_user),
     session: AsyncSession = Depends(get_session)
 ):
+    await save_chat_message(session=session, user_id=user.id, content=user_prompt, role="user")
+
     ai_message_response = await ai_response(
         prompt=user_prompt, 
         lat=user_location.lat,
         lon=user_location.lon
     )
 
-
+    await save_chat_message(session=session, user_id=user.id, content=ai_message_response, role="assistant")
+    
 
     return ai_message_response
 

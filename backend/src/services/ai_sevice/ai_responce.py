@@ -14,8 +14,24 @@ async def ai_response(prompt: str, lat: float, lon: float):
     })
 
     for message in reversed(result["messages"]):
-        if message.type in ("ai", "tool") and message.content:
-            return message.content
+        if message.type != "ai":
+            continue
+
+        content = message.content
+
+        if isinstance(content, str) and content.strip():
+            return content
+
+        if isinstance(content, list):
+            texts = [
+                part.get("text")
+                for part in content
+                if isinstance(part, dict) and part.get("type") == "text"
+            ]
+            if texts:
+                return "\n".join(texts)
+
+    return "Sorry, I couldn't generate a response."
         
 
 

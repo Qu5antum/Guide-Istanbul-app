@@ -4,7 +4,7 @@ from backend.src.services.locations_service import get_location_by_category
 from math import radians, sin, cos, sqrt, atan2
 
 
-@tool
+@tool("user_search", description="Use only if user wants to find some locations", return_direct=False)
 async def user_search_request_by_locationtype_and_distance(
     type_name: str,
     user_lat: float,
