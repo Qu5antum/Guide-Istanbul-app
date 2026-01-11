@@ -10,5 +10,6 @@ argon2_cffi
 langchain
 langchain-google-genai
 python-dotenv
+langchain-openai
 
 
