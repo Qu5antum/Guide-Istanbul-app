@@ -1,1 +1,31 @@
-# Guide-Istanbul-app
+# Guide-Istanbul This app is for those who have just visited Istanbul. It helps them discover various attractions, restaurants, bazaars, beaches, etc. The app also features an AI agent who can give you tips about Istanbul. If you message it, "Find me interesting places to hang out," it can find restaurants, bars, bazaars, hotels, etc., and also calculate the distance to all places based on your location on the map. Of course, you can search for interesting places yourself, filter them by type, and leave comments on specific locations.
+
+# Technologies
+1. Fastapi(Backend)
+2. Javascript
+3. Langchain(For AI Agent)
+4. Postgresql(Database)
+
+# If You want test app
+# Installing a virtual environment
+```
+python -m venv venv
+```
+# Activate virtual environment
+```
+./venv/Scripts/activate
+```
+# Install requirements
+```
+pip install -r requirements.txt
+```
+# Create .env file, add
+```
+URL_DATABSE = "postgresql+asyncpg://postgres:<PASSWORD>localhost:5432/<APP_NAME>"
+```
+
+# Launching the application
+```
+python -m backend.src.main
+```
+

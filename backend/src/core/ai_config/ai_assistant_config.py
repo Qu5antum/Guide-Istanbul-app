@@ -1,6 +1,4 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
 from langchain.messages import SystemMessage
 from langchain.agents import create_agent
 from backend.src.core.config.config import settings
