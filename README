@@ -1,31 +1,44 @@
-# Guide-Istanbul This app is for those who have just visited Istanbul. It helps them discover various attractions, restaurants, bazaars, beaches, etc. The app also features an AI agent who can give you tips about Istanbul. If you message it, "Find me interesting places to hang out," it can find restaurants, bars, bazaars, hotels, etc., and also calculate the distance to all places based on your location on the map. Of course, you can search for interesting places yourself, filter them by type, and leave comments on specific locations.
+# Guide-Istanbul 
 
-# Technologies
-1. Fastapi(Backend)
-2. Javascript
-3. Langchain(For AI Agent)
-4. Postgresql(Database)
+Guide-Istanbul is a web application designed for people who have just arrived in Istanbul. It helps users discover interesting places such as attractions, restaurants, bazaars, beaches, and more.
 
-# If You want test app
-# Installing a virtual environment
-```
+The app also includes an AI-powered assistant that can recommend places based on user requests. For example, you can ask:
+
+> "Find me interesting places to hang out"
+
+and the system will suggest restaurants, bars, hotels, and other locations — along with distances calculated from your current position.
+
+Additionally, users can:
+- Search for places manually
+- Filter locations by category
+- Leave comments and reviews
+
+---
+
+## 🚀 Features
+
+- 📍 Discover attractions, restaurants, bazaars, and beaches  
+- 🤖 AI assistant for personalized recommendations  
+- 🗺️ Distance calculation based on user location  
+- 🔎 Filtering and search functionality  
+- 💬 Commenting system for locations  
+
+---
+
+## Technologies
+
+- **FastAPI** — backend framework  
+- **JavaScript** — frontend  
+- **LangChain** — AI agent integration  
+- **PostgreSQL** — database  
+
+---
+
+## Installation & Setup
+
+Follow these steps to run the project locally:
+
+### 1. Create a virtual environment
+
+```bash
 python -m venv venv
-```
-# Activate virtual environment
-```
-./venv/Scripts/activate
-```
-# Install requirements
-```
-pip install -r requirements.txt
-```
-# Create .env file, add
-```
-URL_DATABSE = "postgresql+asyncpg://postgres:<PASSWORD>localhost:5432/<APP_NAME>"
-```
-
-# Launching the application
-```
-python -m backend.src.main
-```
-
