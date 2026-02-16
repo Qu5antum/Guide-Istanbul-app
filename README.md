@@ -27,10 +27,11 @@ Additionally, users can:
 
 ## Technologies
 
-- **FastAPI** — backend framework  
+- **FastAPI** — backend   
 - **JavaScript** — frontend  
 - **LangChain** — AI agent integration  
-- **PostgreSQL** — database  
+- **PostgreSQL** — Database  
+- **JwT** — Authorization
 
 ---
 
@@ -38,7 +39,38 @@ Additionally, users can:
 
 Follow these steps to run the project locally:
 
-### 1. Create a virtual environment
+### Create a virtual environment
 
 ```bash
 python -m venv venv
+```
+
+### Acitvate virtual environment
+
+```bash
+./venv/Scripts/activate
+```
+
+### Install requirements
+```bash
+pip install -r requirements.txt
+```
+
+### Create .env file in src and add
+
+```bash
+SECRET_KEY = "<SECRET_KEY>" 
+ALGORITHM = "<ALGORITHM>"  
+ACCESS_TOKEN_EXPIRE_MINUTES = <MINUTES> 
+
+URL_DATABASE = "postgresql+asyncpg://postgres:<PASSWORD>@localhost:5432/<APP_NAME>"
+
+AI_API_KEY = "<API_KEY>"
+MODEL = "<MODEL>"
+```
+
+### Launching the application
+
+```bash
+python -m backend.src.main
+```
